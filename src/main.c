@@ -3,7 +3,11 @@
 #include "pebble_fonts.h"
 
 
-#define TIME_FRAME        (GRect(0, 25, 144, 130)) 
+//#define TIME_FRAME        (GRect(0, 25, 144, 130)) 
+	#define TIME_FRAME1        (GRect(0, 23, 142, 35)) 
+	#define TIME_FRAME2        (GRect(0, 55, 142, 35)) 
+	#define TIME_FRAME3        (GRect(0, 88, 142, 35)) 
+	#define TIME_FRAME4        (GRect(0, 121, 142, 35)) 
 #define DATE_FRAME        (GRect(0, 3, 144, 30))
 #define JOKE_FRAME        (GRect(0, 154, 144, 14)) 
 
@@ -12,7 +16,10 @@
 
 //Define the layers
 	TextLayer *date_layer;   		// Layer for the date
-	TextLayer *Time_Layer; 			// Layer for the time
+	TextLayer *Time_Layer1; 			// Layer for the 1st line of the time
+	TextLayer *Time_Layer2; 			// Layer for the 2nd line of the time
+	TextLayer *Time_Layer3; 			// Layer for the 3rd line of the time
+	TextLayer *Time_Layer4; 			// Layer for the 4th line of the time
 	TextLayer *joke_layer;   		// Layer for the joke
 
 
@@ -54,10 +61,18 @@ static const char *HOURS[] = {
 	"twelve",	
 };
 
-static char strAlmost[]="almost ";
-static char strQuarterPast[]="about quarter past "; //19
-static char strThirty[]=" thirtyish "; //19
-static char strQuarterTo[]="roughly quarter to ";
+static char strAlmost[]="almost";
+
+static char strQuarterPast1[]="about"; //19
+static char strQuarterPast2[]="quarter"; //19
+static char strQuarterPast3[]="past "; //19
+
+static char strThirty[]="thirty"; //19
+static char strISH[]="ish"; //19
+
+static char strQuarterTo1[]="roughly";
+static char strQuarterTo2[]="quarter";
+static char strQuarterTo3[]="to";
 
 static char strEarly[]= "early ";
 static char strMid[] = "mid ";
@@ -97,6 +112,7 @@ August 1-10 "Early August"
 		ig = day_text[0]-'0';
 		ih = ie+(ig*10);
 		
+		//clean up the string
 		memset(&date_text[0], 0, sizeof(date_text));
 		
 		if ((ih>0)&&(ih<11)){
@@ -128,51 +144,68 @@ August 1-10 "Early August"
 		ic = minute_text[0]-'0';
 		id = ib+(ic*10);
 		
-		memset(&time_text[0], 0, sizeof(time_text));
+			//clean up the string
+			memset(&time_text[0], 0, sizeof(time_text));
 		
 		if ((id>46)&&(id<54)){
-					
-			memcpy(&time_text, strAlmost, strlen(strAlmost)+1);
-			if(ia==12){strncat(time_text,HOURS[1],strlen(time_text));}
-			else{strncat(time_text, HOURS[ia+1], strlen(time_text));}
+			
+				
+			if(ia==12){memcpy(&time_text,HOURS[1],strlen(HOURS[1])+1);}
+			else{memcpy(&time_text, HOURS[ia+1], strlen(HOURS[ia+1])+1);}
+
+			text_layer_set_text(Time_Layer1, "");
+			text_layer_set_text(Time_Layer2, strAlmost);
+			text_layer_set_text(Time_Layer3, time_text);
+			text_layer_set_text(Time_Layer4, "");
 			}
 		else if ((id>53)&&(id<60)){
 			
 			if(ia==12){memcpy(&time_text,HOURS[1],strlen(HOURS[1])+1);}
 			else{memcpy(&time_text, HOURS[ia+1], strlen(HOURS[ia+1])+1);}
-			strncat(time_text,"ish",strlen(time_text));
+			
+			text_layer_set_text(Time_Layer1, "");
+			text_layer_set_text(Time_Layer2, time_text);
+			text_layer_set_text(Time_Layer3, strISH);
+			text_layer_set_text(Time_Layer4, "");
 			}
 		else if (id<8){
 
 			memcpy(&time_text, HOURS[ia], strlen(HOURS[ia])+1);
-			strncat(time_text,"ish",strlen(time_text));
+			
+			text_layer_set_text(Time_Layer1, "");
+			text_layer_set_text(Time_Layer2, time_text);
+			text_layer_set_text(Time_Layer3, strISH);
+			text_layer_set_text(Time_Layer4, "");
 			}
 		else if ((id>7)&&(id<23)){
 			
-			memcpy(&time_text, strQuarterPast, strlen(strQuarterPast)+1);
-			strncat(time_text, HOURS[ia], strlen(time_text));
+			memcpy(&time_text, HOURS[ia], strlen(HOURS[ia])+1);
+			
+			text_layer_set_text(Time_Layer1, strQuarterPast1);
+			text_layer_set_text(Time_Layer2, strQuarterPast2);
+			text_layer_set_text(Time_Layer3, strQuarterPast3);
+			text_layer_set_text(Time_Layer4, time_text);
 			}
 		else if ((id>22)&&(id<38)){
-			
-			//memcpy(&time_text, strThirty, strlen(strThirty)+1);
-			//strncat(time_text, HOURS[ia], strlen(time_text));
-			
+						
 			memcpy(&time_text, HOURS[ia], strlen(HOURS[ia])+1);
-			strncat(time_text,strThirty,strlen(strThirty));
+			
+			text_layer_set_text(Time_Layer1, time_text);
+			text_layer_set_text(Time_Layer2, strThirty);
+			text_layer_set_text(Time_Layer3, strISH);
+			text_layer_set_text(Time_Layer4, "");
 			}
 		else if ((id>37)&&(id<47)){
 		
-		
-			memcpy(&time_text, strQuarterTo, strlen(strQuarterTo)+1);
-			if (ia==12){strncat(time_text,HOURS[1],strlen(time_text));}
-			else{strncat(time_text, HOURS[ia+1], strlen(time_text));}
+			if(ia==12){memcpy(&time_text,HOURS[1],strlen(HOURS[1])+1);}
+			else{memcpy(&time_text, HOURS[ia+1], strlen(HOURS[ia+1])+1);}
+			
+			text_layer_set_text(Time_Layer1, strQuarterTo1);
+			text_layer_set_text(Time_Layer2, strQuarterTo2);
+			text_layer_set_text(Time_Layer3, strQuarterTo3);
+			text_layer_set_text(Time_Layer4, time_text);
 			}
-		else{memcpy(&time_text, HOURS[ia], strlen(HOURS[ia])+1);}
 	
-	
-  		//text_layer_set_text(Time_Layer, HOURS[ia]);
-  		text_layer_set_text(Time_Layer, time_text);
-
 
 
 	} //MINUTE CHANGES
@@ -208,13 +241,34 @@ void handle_init(void)
 	//LOAD THE LAYERS
 
 		//Display the Time layer
-		Time_Layer = text_layer_create(TIME_FRAME);
-		text_layer_set_text_color(Time_Layer, GColorWhite);
-		text_layer_set_background_color(Time_Layer, GColorClear);
-		text_layer_set_font(Time_Layer, font_time);
-		text_layer_set_text_alignment(Time_Layer, GTextAlignmentCenter);
-		layer_add_child(window_get_root_layer(my_window), text_layer_get_layer(Time_Layer)); 
+		Time_Layer1 = text_layer_create(TIME_FRAME1);
+		text_layer_set_text_color(Time_Layer1, GColorWhite);
+		text_layer_set_background_color(Time_Layer1, GColorClear);
+		text_layer_set_font(Time_Layer1, font_time);
+		text_layer_set_text_alignment(Time_Layer1, GTextAlignmentRight);
+		layer_add_child(window_get_root_layer(my_window), text_layer_get_layer(Time_Layer1)); 
 
+		Time_Layer2 = text_layer_create(TIME_FRAME2);
+		text_layer_set_text_color(Time_Layer2, GColorWhite);
+		text_layer_set_background_color(Time_Layer2, GColorClear);
+		text_layer_set_font(Time_Layer2, font_time);
+		text_layer_set_text_alignment(Time_Layer2, GTextAlignmentRight);
+		layer_add_child(window_get_root_layer(my_window), text_layer_get_layer(Time_Layer2)); 
+	
+		Time_Layer3 = text_layer_create(TIME_FRAME3);
+		text_layer_set_text_color(Time_Layer3, GColorWhite);
+		text_layer_set_background_color(Time_Layer3, GColorClear);
+		text_layer_set_font(Time_Layer3, font_time);
+		text_layer_set_text_alignment(Time_Layer3, GTextAlignmentRight);
+		layer_add_child(window_get_root_layer(my_window), text_layer_get_layer(Time_Layer3)); 
+	
+		Time_Layer4 = text_layer_create(TIME_FRAME4);
+		text_layer_set_text_color(Time_Layer4, GColorWhite);
+		text_layer_set_background_color(Time_Layer4, GColorClear);
+		text_layer_set_font(Time_Layer4, font_time);
+		text_layer_set_text_alignment(Time_Layer4, GTextAlignmentRight);
+		layer_add_child(window_get_root_layer(my_window), text_layer_get_layer(Time_Layer4)); 
+	
 		//Display the Date layer
 		date_layer = text_layer_create(DATE_FRAME);
 		text_layer_set_text_color(date_layer, GColorWhite);
@@ -257,7 +311,10 @@ void handle_deinit(void)
 	tick_timer_service_unsubscribe();
 
 	//Deallocate layers
-	text_layer_destroy(Time_Layer);
+	text_layer_destroy(Time_Layer1);
+	text_layer_destroy(Time_Layer2);
+	text_layer_destroy(Time_Layer3);
+	text_layer_destroy(Time_Layer4);
 	text_layer_destroy(date_layer);
 
 	//Deallocate the main window
