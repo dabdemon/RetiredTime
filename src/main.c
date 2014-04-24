@@ -47,32 +47,32 @@
 
 static const char *HOURS[] = {
 	NULL,
-	"one",
-	"two",
-	"three",
-	"four",
-	"five",
-	"six",
-	"seven",
-	"eight",
-	"nine",
-	"ten",
-	"eleven", //6
-	"twelve",	
+	"one ",
+	"two ",
+	"three ",
+	"four ",
+	"five ",
+	"six ",
+	"seven ",
+	"eight ",
+	"nine ",
+	"ten ",
+	"eleven ", //6
+	"twelve ",	
 };
 
 static char strAlmost[]="almost";
 
-static char strQuarterPast1[]="about"; //19
-static char strQuarterPast2[]="quarter"; //19
+static char strQuarterPast1[]="about "; //19
+static char strQuarterPast2[]="quarter "; //19
 static char strQuarterPast3[]="past "; //19
 
-static char strThirty[]="thirty"; //19
-static char strISH[]="ish"; //19
+static char strThirty[]="thirty "; //19
+static char strISH[]="ish "; //19
 
-static char strQuarterTo1[]="roughly";
-static char strQuarterTo2[]="quarter";
-static char strQuarterTo3[]="to";
+static char strQuarterTo1[]="roughly ";
+static char strQuarterTo2[]="quarter ";
+static char strQuarterTo3[]="to ";
 
 static char strEarly[]= "early ";
 static char strMid[] = "mid ";
@@ -221,18 +221,14 @@ August 1-10 "Early August"
 void handle_init(void)
 {
 
-	ResHandle res_t;
-	
 	//Create the main window
 	my_window = window_create(); 
 	window_stack_push(my_window, true /* Animated */);
 	window_set_background_color(my_window, GColorBlack);
 
 	
-	//res_t = resource_get_handle(RESOURCE_ID_HELVETICA_30); // Time font
 	
     font_time = fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK);
-	//font_time = fonts_load_custom_font(res_t);
 	 
 	font_date = fonts_get_system_font(FONT_KEY_GOTHIC_18);
 	font_joke = fonts_get_system_font(FONT_KEY_GOTHIC_14);
