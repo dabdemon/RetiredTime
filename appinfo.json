@@ -1,0 +1,26 @@
+{
+    "versionLabel": "1.0",
+    "capabilities": [
+        ""
+    ],
+    "shortName": "Retired Time",
+    "longName": "Retired Time",
+    "versionCode": 1,
+    "uuid": "3d985842-dc39-442d-919d-358954d9a22a",
+    "resources": {
+        "media": [
+            {
+                "type": "font",
+                "trackingAdjust": -1,
+                "file": "fonts/ufonts.com_helvetica_neue_condensed_bold_1_.ttf",
+                "characterRegex": "[A-Z]",
+                "name": "HELVETICA_30"
+            }
+        ]
+    },
+    "watchapp": {
+        "watchface": true
+    },
+    "appKeys": {},
+    "companyName": "dabdemon"
+}
